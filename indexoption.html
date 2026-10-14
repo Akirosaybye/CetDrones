@@ -17,7 +17,7 @@
             justify-content: space-between;
         }
 
-        /* Encabezado con código de error a la izquierda y temporizador a la derecha */
+        /* Encabezado */
         header {
             display: flex;
             justify-content: space-between;
@@ -30,16 +30,57 @@
             color: #ffffff;
         }
 
-        .timer {
-            font-size: 18px;
-            color: #ffffff;
-            background-color: #1a1a1a;
-            padding: 5px 12px;
-            border: 1px solid #333333;
-            border-radius: 4px;
+        /* Contenedor del temporizador y botón en la esquina superior derecha */
+        .top-right-container {
+            min-width: 120px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
         }
 
-        /* Contenido central compacto sin espacios molestos */
+        .timer {
+            font-size: 20px;
+            color: #ffffff;
+            background-color: #1a1a1a;
+            padding: 8px 16px;
+            border: 1px solid #333333;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Botón de descuento BASTANTE MÁS GRANDE */
+        .btn-descuento-grande {
+            background-color: #ffffff;
+            color: #000000;
+            border: 2px solid #ffffff;
+            padding: 14px 28px;
+            font-size: 20px;
+            font-family: "Times New Roman", Times, serif;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-descuento-grande:hover {
+            background-color: #e6e6e6;
+            transform: scale(1.05);
+        }
+
+        /* Texto del código de descuento agrandado */
+        .codigo-texto-grande {
+            font-size: 20px;
+            color: #ffffff;
+            font-weight: bold;
+            background-color: #1a1a1a;
+            padding: 12px 22px;
+            border: 1px dashed #ffffff;
+            border-radius: 6px;
+            letter-spacing: 1px;
+        }
+
+        /* Contenido central compacto */
         main {
             display: flex;
             flex-direction: column;
@@ -47,7 +88,7 @@
             justify-content: center;
             gap: 20px;
             flex-grow: 1;
-            margin-top: -40px; /* Ajuste fino para centrado óptimo */
+            margin-top: -40px;
         }
 
         h1 {
@@ -73,42 +114,8 @@
             background-color: #333333;
         }
 
-        /* Estilo para el botón y contenedor de descuento */
-        .discount-container {
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-descuento {
-            background-color: #ffffff;
-            color: #000000;
-            border: 1px solid #ffffff;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-family: "Times New Roman", Times, serif;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .btn-descuento:hover {
-            background-color: #e0e0e0;
-        }
-
-        .codigo-texto {
-            font-size: 16px;
-            color: #ffffff;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
         footer {
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 40px;
         }
     </style>
 </head>
@@ -116,8 +123,11 @@
 
     <header>
         <span class="error-code">error 29174917794319</span>
-        <!-- Temporizador arriba a la derecha -->
-        <div id="temporizador" class="timer">10s</div>
+        
+        <!-- Mismo lugar arriba a la derecha para el temporizador y luego el botón -->
+        <div class="top-right-container" id="zona-temporizador">
+            <div id="temporizador" class="timer">10s</div>
+        </div>
     </header>
 
     <main>
@@ -125,34 +135,32 @@
         <a href="index.html" class="btn-regresar">Ok...</a>
     </main>
 
-    <footer>
-        <!-- Contenedor dinámico del descuento -->
-        <div class="discount-container" id="contenedor-descuento"></div>
-    </footer>
+    <footer></footer>
 
     <script>
         let tiempoRestante = 10;
         const timerElement = document.getElementById('temporizador');
-        const contenedorDescuento = document.getElementById('contenedor-descuento');
+        const zonaTemporizador = document.getElementById('zona-temporizador');
 
-        // Cuenta regresiva de 10 segundos
         const intervalo = setInterval(() => {
             tiempoRestante--;
             timerElement.textContent = tiempoRestante + 's';
 
             if (tiempoRestante <= 0) {
                 clearInterval(intervalo);
-                // Ocultar el temporizador
-                timerElement.style.display = 'none';
                 
-                // Mostrar el botón de descuento abajo
-                contenedorDescuento.innerHTML = `<button class="btn-descuento" onclick="mostrarCodigo()">¡Te ganaste un descuento!</button>`;
+                // Reemplaza el temporizador en la MISMA esquina por el botón GRANDE
+                zonaTemporizador.innerHTML = `
+                    <button class="btn-descuento-grande" onclick="mostrarCodigo()">¡Te ganaste un descuento!</button>
+                `;
             }
         }, 1000);
 
-        // Función al hacer clic en el botón de descuento
         function mostrarCodigo() {
-            contenedorDescuento.innerHTML = `<span class="codigo-texto">Codigo: 1BH173H</span>`;
+            // Reemplaza el botón grande por el código en esa misma esquina
+            zonaTemporizador.innerHTML = `
+                <span class="codigo-texto-grande">Codigo: 1BH173H</span>
+            `;
         }
     </script>
 
