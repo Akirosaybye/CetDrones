@@ -145,7 +145,7 @@
         <div>
             <h1>Ingresa el codigo de descuento</h1>
             <div class="input-group">
-                <input type="text" id="codigoInput" placeholder="Ej. 1BH173H">
+                <input type="text" id="codigoInput" placeholder="">
                 <button onclick="verificarCodigo()">Canjear</button>
             </div>
         </div>
@@ -169,7 +169,7 @@
                 texto.innerHTML = "Te ganaste un 0.001% de descuento y una radio tostadora:";
                 resultado.style.display = 'flex';
             } else {
-                alert('Código incorrecto. ¡Revisa el código secreto de la página anterior!');
+                alert('Código incorrecto.');
             }
         }
     </script>
