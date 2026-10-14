@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CetDrones</title>
+    <title>Catálogo - CetDrones</title>
     <style>
-        /* Estilos generales y fuente Times New Roman */
         body {
             margin: 0;
             padding: 0;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #ffffff;
             font-family: "Times New Roman", Times, serif;
             display: flex;
             flex-direction: column;
+            align-items: center;
             justify-content: space-between;
         }
 
-        /* Encabezado: CetDrones arriba a la izquierda */
         header {
+            width: 100%;
             padding: 20px 30px;
+            box-sizing: border-box;
         }
 
         .logo {
@@ -29,74 +30,137 @@
             text-decoration: none;
         }
 
-        /* Contenedor central para los botones */
         main {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-grow: 1;
+            gap: 25px;
+            padding: 10px;
         }
 
-        /* Botón principal "Catálogo" */
-        .btn-catalogo {
-            background-color: #f0f0f0; /* Fondo sutil para contraste con el blanco */
-            color: #000000;
-            padding: 15px 35px;
-            font-size: 20px;
+        .foto-catalogo {
+            max-width: 85vw;
+            max-height: 62vh;
+            object-fit: contain;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+        }
+
+        .navegacion {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        @keyframes waveEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(25px) scale(0.95);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-5px) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .btn-nav {
+            padding: 12px 28px;
+            font-size: 18px;
             font-family: "Times New Roman", Times, serif;
             text-decoration: none;
-            border: 1px solid #dcdcdc;
-            border-radius: 5px;
-            transition: background-color 0.2s;
+            border-radius: 6px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            cursor: pointer;
+            animation: waveEntrance 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            opacity: 0;
         }
 
-        .btn-catalogo:hover {
-            background-color: #e4e4e4;
+        .btn-nav:nth-child(1) {
+            animation-delay: 0.15s;
+        }
+        .btn-nav:nth-child(2) {
+            animation-delay: 0.3s;
         }
 
-        /* Botón secundario "No voy a comprar nada" */
-        .btn-no-comprar {
+        .btn-nav:hover {
+            transform: scale(1.04);
+        }
+
+        /* Botón superior: Fondo blanco, letra y borde negro */
+        .btn-atras, .btn-cerrar {
             background-color: #ffffff;
             color: #000000;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-family: "Times New Roman", Times, serif;
-            text-decoration: none;
-            border: 1px solid #cccccc;
-            border-radius: 3px;
-            transition: background-color 0.2s;
+            border: 2px solid #000000;
+            font-weight: bold;
         }
 
-        .btn-no-comprar:hover {
-            background-color: #f8f8f8;
+        .btn-atras:hover, .btn-cerrar:hover {
+            background-color: #f2f2f2;
         }
 
-        /* Espaciador inferior para mantener simetría */
+        /* Botón inferior: Fondo negro, letra blanca, borde blanco */
+        .btn-adelante {
+            background-color: #000000;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            font-weight: bold;
+        }
+
+        .btn-adelante:hover {
+            background-color: #222222;
+        }
+
         footer {
-            height: 60px;
+            height: 40px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Arriba a la izquierda -->
     <header>
-        <span class="logo">CetDrones</span>
+        <a href="index.html" class="logo">CetDrones</a>
     </header>
 
-    <!-- Contenido central -->
     <main>
-        <!-- Botón que lleva a la foto "1" en tu repositorio -->
-        <!-- Nota: Asegúrate de cambiar '1.jpg' por la extensión exacta de tu archivo si es .png, .jpeg, etc. -->
-        <a href="1.jpg" class="btn-catalogo">Catálogo</a>
+        <img id="imagen-catalogo" src="" alt="Catálogo CetDrones" class="foto-catalogo">
 
-        <!-- Botón que lleva a indexoption.html -->
-        <a href="indexoption.html" class="btn-no-comprar">No voy a comprar nada</a>
+        <div class="navegacion" id="botones-nav">
+            <!-- Se inyectan dinámicamente -->
+        </div>
     </main>
 
     <footer></footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        let fotoActual = parseInt(urlParams.get('foto')) || 1;
+
+        const minFoto = 1;
+        const maxFoto = 7;
+
+        if (fotoActual < minFoto) fotoActual = minFoto;
+        if (fotoActual > maxFoto) fotoActual = maxFoto;
+
+        // Configurado para leer las fotos en formato .png (1.png, 2.png, etc.)
+        document.getElementById('imagen-catalogo').src = `${fotoActual}.png`;
+
+        const contenedorBotones = document.getElementById('botones-nav');
+
+        if (fotoActual === minFoto) {
+            contenedorBotones.innerHTML += `<a href="index.html" class="btn-nav btn-cerrar" title="Salir">✕</a>`;
+        } else {
+            contenedorBotones.innerHTML += `<a href="catalogo.html?foto=${fotoActual - 1}" class="btn-nav btn-atras">Atrás</a>`;
+        }
+
+        if (fotoActual < maxFoto) {
+            contenedorBotones.innerHTML += `<a href="catalogo.html?foto=${fotoActual + 1}" class="btn-nav btn-adelante">Adelante</a>`;
+        }
+    </script>
 
 </body>
 </html>
