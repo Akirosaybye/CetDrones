@@ -30,56 +30,89 @@
             text-decoration: none;
         }
 
-        /* Contenedor principal de la imagen y los controles */
         main {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
             padding: 10px;
-            position: relative;
         }
 
-        /* Estilo para la foto del catálogo */
         .foto-catalogo {
             max-width: 85vw;
-            max-height: 65vh;
+            max-height: 62vh;
             object-fit: contain;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #dcdcdc;
             border-radius: 4px;
         }
 
-        /* Contenedor de los botones de navegación */
         .navegacion {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
             margin-top: 10px;
         }
 
-        /* Estilo base para los botones (Cian BetaFPV sutil y semitransparente) */
+        @keyframes waveEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(25px) scale(0.95);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-5px) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         .btn-nav {
-            background-color: rgba(0, 229, 255, 0.12); /* Cian transparente sutil */
-            color: #005f73;
-            padding: 10px 22px;
-            font-size: 16px;
+            padding: 12px 28px;
+            font-size: 18px;
             font-family: "Times New Roman", Times, serif;
             text-decoration: none;
-            border: 1px solid rgba(0, 229, 255, 0.4);
-            border-radius: 4px;
-            transition: all 0.2s ease;
+            border-radius: 6px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
             cursor: pointer;
+            animation: waveEntrance 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            opacity: 0;
+        }
+
+        .btn-nav:nth-child(1) {
+            animation-delay: 0.15s;
+        }
+        .btn-nav:nth-child(2) {
+            animation-delay: 0.3s;
         }
 
         .btn-nav:hover {
-            background-color: rgba(0, 229, 255, 0.25);
-            border-color: rgba(0, 229, 255, 0.7);
+            transform: scale(1.04);
         }
 
-        /* Estilo específico para el botón "X" de cierre/salida */
-        .btn-cerrar {
+        /* Botón superior: Fondo blanco, letra y borde negro */
+        .btn-atras, .btn-cerrar {
+            background-color: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
             font-weight: bold;
-            padding: 10px 18px;
+        }
+
+        .btn-atras:hover, .btn-cerrar:hover {
+            background-color: #f2f2f2;
+        }
+
+        /* Botón inferior: Fondo negro, letra blanca, borde blanco */
+        .btn-adelante {
+            background-color: #000000;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            font-weight: bold;
+        }
+
+        .btn-adelante:hover {
+            background-color: #222222;
         }
 
         footer {
@@ -89,54 +122,43 @@
 </head>
 <body>
 
-    <!-- Encabezado con el nombre de tu marca -->
     <header>
         <a href="index.html" class="logo">CetDrones</a>
     </header>
 
-    <!-- Contenido dinámico -->
     <main>
-        <!-- La imagen cambiará dinámicamente según el número -->
         <img id="imagen-catalogo" src="" alt="Catálogo CetDrones" class="foto-catalogo">
 
-        <!-- Botones de navegación generados sin bugs -->
         <div class="navegacion" id="botones-nav">
-            <!-- Se inyectan automáticamente desde JavaScript -->
+            <!-- Se inyectan dinámicamente -->
         </div>
     </main>
 
     <footer></footer>
 
     <script>
-        // Obtener el número de la foto actual desde la URL (ejemplo: catalogo.html?foto=1)
         const urlParams = new URLSearchParams(window.location.search);
         let fotoActual = parseInt(urlParams.get('foto')) || 1;
 
-        // Definir los límites del catálogo (del 1 al 7)
         const minFoto = 1;
         const maxFoto = 7;
 
-        // Validar por seguridad que no se salga de rango (evita bugs si manipulan la URL)
         if (fotoActual < minFoto) fotoActual = minFoto;
         if (fotoActual > maxFoto) fotoActual = maxFoto;
 
-        // Asignar la imagen correspondiente (asumiendo formato .jpg, puedes cambiarlo a .png si tus fotos lo usan)
-        // Nota: Si tus extensiones varían, puedes cambiar 'jpg' por la extensión exacta de tu repo.
-        document.getElementById('imagen-catalogo').src = `${fotoActual}.jpg`;
+        // Configurado para leer las fotos en formato .png (1.png, 2.png, etc.)
+        document.getElementById('imagen-catalogo').src = `${fotoActual}.png`;
 
-        // Construir los botones de manera lógica y limpia
         const contenedorBotones = document.getElementById('botones-nav');
 
-        // 1. Botón izquierdo: Si está en la foto 1 muestra la "X" (lleva a index), sino muestra "Atrás"
         if (fotoActual === minFoto) {
             contenedorBotones.innerHTML += `<a href="index.html" class="btn-nav btn-cerrar" title="Salir">✕</a>`;
         } else {
-            contenedorBotones.innerHTML += `<a href="catalogo.html?foto=${fotoActual - 1}" class="btn-nav">Atrás</a>`;
+            contenedorBotones.innerHTML += `<a href="catalogo.html?foto=${fotoActual - 1}" class="btn-nav btn-atras">Atrás</a>`;
         }
 
-        // 2. Botón derecho: Si está en la última foto (7), desaparece por completo. Si no, muestra "Adelante".
         if (fotoActual < maxFoto) {
-            contenedorBotones.innerHTML += `<a href="catalogo.html?foto=${fotoActual + 1}" class="btn-nav">Adelante</a>`;
+            contenedorBotones.innerHTML += `<a href="catalogo.html?foto=${fotoActual + 1}" class="btn-nav btn-adelante">Adelante</a>`;
         }
     </script>
 
