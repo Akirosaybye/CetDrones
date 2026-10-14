@@ -38,46 +38,50 @@
             align-items: center;
         }
 
+        /* Temporizador estilo ROJO de peligro */
         .timer {
             font-size: 20px;
             color: #ffffff;
-            background-color: #1a1a1a;
+            background-color: #d32f2f;
             padding: 8px 16px;
-            border: 1px solid #333333;
+            border: 1px solid #ff5252;
             border-radius: 5px;
             font-weight: bold;
+            box-shadow: 0 0 10px rgba(211, 47, 47, 0.6);
         }
 
-        /* Botón de descuento BASTANTE MÁS GRANDE */
+        /* Botón de descuento GRANDE y ROJO de peligro */
         .btn-descuento-grande {
-            background-color: #ffffff;
-            color: #000000;
-            border: 2px solid #ffffff;
+            background-color: #d32f2f;
+            color: #ffffff;
+            border: 2px solid #ff5252;
             padding: 14px 28px;
             font-size: 20px;
             font-family: "Times New Roman", Times, serif;
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.2s ease;
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
         }
 
         .btn-descuento-grande:hover {
-            background-color: #e6e6e6;
+            background-color: #b71c1c;
             transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.9);
         }
 
-        /* Texto del código de descuento agrandado */
+        /* Texto del código de descuento en rojo brillante */
         .codigo-texto-grande {
             font-size: 20px;
             color: #ffffff;
             font-weight: bold;
             background-color: #1a1a1a;
             padding: 12px 22px;
-            border: 1px dashed #ffffff;
+            border: 2px dashed #ff5252;
             border-radius: 6px;
             letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(255, 82, 82, 0.4);
         }
 
         /* Contenido central compacto */
@@ -124,7 +128,7 @@
     <header>
         <span class="error-code">error 29174917794319</span>
         
-        <!-- Mismo lugar arriba a la derecha para el temporizador y luego el botón -->
+        <!-- Zona superior derecha para el temporizador y el botón -->
         <div class="top-right-container" id="zona-temporizador">
             <div id="temporizador" class="timer">10s</div>
         </div>
@@ -149,7 +153,7 @@
             if (tiempoRestante <= 0) {
                 clearInterval(intervalo);
                 
-                // Reemplaza el temporizador en la MISMA esquina por el botón GRANDE
+                // Muestra el botón rojo de peligro en la misma esquina
                 zonaTemporizador.innerHTML = `
                     <button class="btn-descuento-grande" onclick="mostrarCodigo()">¡Te ganaste un descuento!</button>
                 `;
@@ -157,7 +161,7 @@
         }, 1000);
 
         function mostrarCodigo() {
-            // Reemplaza el botón grande por el código en esa misma esquina
+            // Muestra el código de descuento en el mismo lugar
             zonaTemporizador.innerHTML = `
                 <span class="codigo-texto-grande">Codigo: 1BH173H</span>
             `;
