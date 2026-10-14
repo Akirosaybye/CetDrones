@@ -91,7 +91,7 @@
             transform: scale(1.04);
         }
 
-        /* Botón superior: Fondo blanco, letra y borde negro */
+        /* Botón superior (Atrás / X): Fondo blanco, letra y borde negro */
         .btn-atras, .btn-cerrar {
             background-color: #ffffff;
             color: #000000;
@@ -103,15 +103,15 @@
             background-color: #f2f2f2;
         }
 
-        /* Botón inferior: Fondo negro, letra blanca, borde blanco */
-        .btn-adelante {
+        /* Botón inferior (Adelante / Comprar): Fondo negro, letra blanca, borde blanco */
+        .btn-adelante, .btn-comprar {
             background-color: #000000;
             color: #ffffff;
             border: 2px solid #ffffff;
             font-weight: bold;
         }
 
-        .btn-adelante:hover {
+        .btn-adelante:hover, .btn-comprar:hover {
             background-color: #222222;
         }
 
@@ -146,19 +146,23 @@
         if (fotoActual < minFoto) fotoActual = minFoto;
         if (fotoActual > maxFoto) fotoActual = maxFoto;
 
-        // Configurado para leer las fotos en formato .png (1.png, 2.png, etc.)
+        // Carga la foto correspondiente en formato .png
         document.getElementById('imagen-catalogo').src = `${fotoActual}.png`;
 
         const contenedorBotones = document.getElementById('botones-nav');
 
+        // 1. Botón izquierdo: Si está en la foto 1 muestra la "X", sino muestra "Atrás"
         if (fotoActual === minFoto) {
             contenedorBotones.innerHTML += `<a href="index.html" class="btn-nav btn-cerrar" title="Salir">✕</a>`;
         } else {
             contenedorBotones.innerHTML += `<a href="catalogo.html?foto=${fotoActual - 1}" class="btn-nav btn-atras">Atrás</a>`;
         }
 
+        // 2. Botón derecho: Si es la última foto (7), muestra "¡Comprar!" hacia comprar.html. Si no, muestra "Adelante".
         if (fotoActual < maxFoto) {
             contenedorBotones.innerHTML += `<a href="catalogo.html?foto=${fotoActual + 1}" class="btn-nav btn-adelante">Adelante</a>`;
+        } else {
+            contenedorBotones.innerHTML += `<a href="comprar.html" class="btn-nav btn-comprar">¡Comprar!</a>`;
         }
     </script>
 
